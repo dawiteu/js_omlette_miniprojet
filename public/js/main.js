@@ -80,6 +80,11 @@ let poele = {
 
     cuire: function(content){
         console.log(`On va commancez a cuire... ${content.nom} / etat actuel: ${content.etat}.`); 
+        let x = setTimeout( () => {
+            content.etat="cuit";
+            console.log(`Le plat: ${content.nom} == est ==>  ${content.etat}`); 
+            clearTimeout(x);
+        }, 4000)
     }
 }
 
@@ -174,27 +179,3 @@ bol.melanger("omlette");
 bol.verser(bol.contenu[0], poele);
 
 poele.cuire(poele.contenu[0]); 
-
-
-
-
-
-console.log(personnage);
-
-console.log(epicerie);
-
-
-//console.log(maison);  
-
-
-
-
-
-
-
-/*
-
-console.log(maison);  
-console.log(epicerie);
-
-*/
