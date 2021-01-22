@@ -1,8 +1,16 @@
 export class Lieu{
-    constructor(nom, personnes, panier){
+    constructor(nom, personnes, nombreP,ingredients){
         this.nom = nom;
-        this.personnes = personnes ? personnes : []; 
-        panier ? this.panier= panier=[] :  null; 
+        this.personnes = personnes ? personnes : [];
+        if(nombreP != "" && nombreP != undefined){
+            let paniers = []; 
+            let panier  = [];
+            nombreP = parseInt(nombreP)-1;
+            for(let i=0; i<=nombreP; i++){
+                paniers[i] = panier; 
+            } 
+            this.panier = paniers; 
+        } 
+        ingredients ? this.ingredients = [] : null; 
     }
-
 }
