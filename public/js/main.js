@@ -16,8 +16,6 @@ let oeuf = new Ingredient("oeuf", "entier", 2);
 let epice = new Ingredient("epice", "moulu", 5); 
 let fromage = new Ingredient("fromage", "coupé", 4); 
 
-
-
 // le personnage 
 let personnage = {
     nom: "Dawid",
@@ -47,15 +45,23 @@ let personnage = {
         }
     },
     payerArticle(article){
-        console.log(`Le payement du article`);
+        this.argent-=article.prix; 
+        console.log(` >> Payement pour (${article.nom}) Solde restant: ${this.argent} euro.`);
     },
     couper(ingredient, outil){
         console.log(`${this.nom} coupe ${ingredient} a l'aide de ${outil}`); 
     },
-    prendPanier(quoi,ou){ // il prend QUOI (outi, objet, .. ? ) et le prend ou? dans sa main g,d?
+    prendPanier(quoi, ou){ // il prend QUOI (outi, objet, .. ? ) et le prend ou? dans sa main g,d?
         let panier = eval(quoi).pop();
-        this.mains.droite.push(panier);  
+        ou.push(panier);  
         console.log(`${this.nom} prend un panier au magasin.`);
+    },
+    prendArticle(article,ou){ // quel article et ou on le place ; 
+        ou.push(article);
+        personnage.payerArticle(article); 
+    },
+    etat(){
+        console.log(`${this.nom} est ici: ${this.lieu}. \n etat de son porte-feuilles: ${this.argent} euro.`);
     }
 }
 
@@ -73,23 +79,64 @@ let poele = {
 
     }
 }
+
+let bol = {
+    contenu: [], 
+    melanger(nomMelange) {
+        newMelange = {
+            nom: nomMelange,
+            etat: "pas cuit"
+        }
+        this.contenu.push(newMelange); 
+    }
+}
 //pour le fun:  (ajouter automatiquement les ingred ds lepicerie); 
+
+let temptab = [oignon, oeuf, fromage, epice];
+
+epicerie.articles = temptab; 
+
 /*
 for(let i=0; i<Ingredient.nb; i++){
+    for (const [key, value] of Object.entries(Ingredient)) {
+        console.log(`${key}: ${value}`);
+    }
 }
 */
+
 // le jeu. 
 personnage.seDeplacer(maison);
 personnage.seDeplacer(epicerie);
 
+personnage.etat(); 
+
 personnage.prendPanier(epicerie.panier, personnage.mains.droite); 
+//console.log(personnage);
+//console.log(epicerie);
+
+for(let i=0; i<epicerie.articles.length; i++){
+    console.log(`${personnage.nom} prend l'article .${epicerie.articles[i].nom}. ds son panier.`);
+    personnage.prendArticle( epicerie.articles[i], personnage.mains.droite[0]);
+}
+personnage.etat(); 
+
+console.log('------------');
+
+personnage.seDeplacer(maison);
+
+
+bol.contenu.push("oeuf"); 
+
+console.log(bol); 
+
+
+
+
 console.log(personnage);
 console.log(epicerie);
 
 
 //console.log(maison);  
-
-
 
 
 

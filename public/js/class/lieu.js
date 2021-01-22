@@ -1,5 +1,5 @@
 export class Lieu{
-    constructor(nom, personnes, nombreP,ingredients){
+    constructor(nom, personnes, nombreP, articles){
         this.nom = nom;
         this.personnes = personnes ? personnes : [];
         if(nombreP != "" && nombreP != undefined){
@@ -11,6 +11,6 @@ export class Lieu{
             } 
             this.panier = paniers; 
         } 
-        ingredients ? this.ingredients = [] : null; 
+        articles ? this.articles = {} : null; 
     }
 }
