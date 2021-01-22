@@ -49,12 +49,14 @@ let personnage = {
         console.log(` >> Payement pour (${article.nom}) Solde restant: ${this.argent} euro.`);
     },
     couper(ingredient, outil){
-        console.log(`${this.nom} coupe ${ingredient} a l'aide de ${outil}`); 
+        ingredient.etat = outil.action; 
+        console.log(`${this.nom} coupe ${ingredient.nom} a l'aide de ${outil.nom}`); 
     },
     prendPanier(quoi, ou){ // il prend QUOI (outi, objet, .. ? ) et le prend ou? dans sa main g,d?
         let panier = eval(quoi).pop();
         ou.push(panier);  
-        console.log(`${this.nom} prend un panier au magasin.`);
+        let lieupanier = quoi==epicerie.panier ? "prend un" : "rend le"; 
+        console.log(`${this.nom} ${lieupanier} panier. `);
     },
     prendArticle(article,ou){ // quel article et ou on le place ; 
         ou.push(article);
@@ -68,26 +70,45 @@ let personnage = {
 // outil: couteau; 
 let couteau = {
     nom: "couteau", 
-    action: "coupe"
+    action: "coupé"
 }
 
 // recipiens: 
 
 let poele = {
-    ingred: [], 
-    cuir: function(){
+    contenu: [], 
 
+    cuire: function(content){
+        console.log(`On va commancez a cuire... ${content.nom} / etat actuel: ${content.etat}.`); 
     }
 }
 
 let bol = {
     contenu: [], 
+    newMelange: {},
     melanger(nomMelange) {
-        newMelange = {
-            nom: nomMelange,
-            etat: "pas cuit"
+        if(this.contenu.length >= 2){
+
+            this.newMelange = {
+                nom: nomMelange,
+                etat: "pas cuit"
+            }
+
+            console.log(`il y a ${this.contenu.length} a melanger`);
+
+            for(let i=0; i<this.contenu.length; i++){
+                this.contenu.splice(i ,1);
+                i--;
+            }
+            console.log(`Resultat de ton melange: ${this.newMelange.nom} etat: ${this.newMelange.etat}`);
+            this.contenu.push(this.newMelange);
         }
-        this.contenu.push(newMelange); 
+    },
+
+    verser(nomMelange, endroit){ // que verse t'on et ou ? 
+        endroit.contenu.push( nomMelange ); 
+        this.contenu.splice( this.contenu.indexOf(nomMelange.nom), 1);
+        console.log(`Tout a ete versez dans la poele!`);
     }
 }
 //pour le fun:  (ajouter automatiquement les ingred ds lepicerie); 
@@ -124,15 +145,42 @@ console.log('------------');
 
 personnage.seDeplacer(maison);
 
+console.log('------------');
 
-bol.contenu.push("oeuf"); 
+for(let i=0; i < personnage.mains.droite[0].length; i++){
+    bol.contenu.push( personnage.mains.droite[0][i] ); 
+    console.log(`${personnage.mains.droite[0][i].nom} est dans le bol`);
+    personnage.mains.droite[0].splice(i, 1);
+    i--;
+}
 
-console.log(bol); 
+if(personnage.mains.droite[0].length == 0){
+    console.log(`oups le panier x)!! je vais vite le remettre au magasin.`); 
+    personnage.seDeplacer(epicerie);
+    personnage.prendPanier(personnage.mains.droite, epicerie.panier); 
+    personnage.seDeplacer(maison);
+}
+
+for(let i=0; i < bol.contenu.length; i++){
+    if(bol.contenu[i].etat == "entier"){
+        personnage.couper(bol.contenu[i], couteau); 
+    }
+}
+
+console.log(bol);
+
+bol.melanger("omlette"); 
+
+bol.verser(bol.contenu[0], poele);
+
+poele.cuire(poele.contenu[0]); 
+
 
 
 
 
 console.log(personnage);
+
 console.log(epicerie);
 
 
