@@ -1,14 +1,10 @@
 //imports 
-
 import {Lieu} from "./class/lieu.js";
 import {Ingredient} from "./class/ingred.js"; 
-
-
 
 // lieux 
 let maison = new Lieu("maison");
 let epicerie = new Lieu("epicerie", 0, 3, 0); 
-
 
 // ingredients 
 let oignon = new Ingredient("oignon","entier", 3); 
@@ -38,7 +34,6 @@ let personnage = {
                 console.log(`Vous etes deja a cet endroit!`);
             }            
         }else{
-            // premier lieu. 
             this.lieu = nvlieu.nom; 
             nvlieu.personnes.push(this.nom);
             console.log(`${this.nom} est actuellement à la ${this.lieu}.`);
@@ -74,10 +69,8 @@ let couteau = {
 }
 
 // recipiens: 
-
 let poele = {
     contenu: [], 
-
     cuire: function(content){
         console.log(`On va commancez a cuire... ${content.nom} / etat actuel: ${content.etat}.`); 
         let x = setTimeout( () => {
@@ -137,8 +130,6 @@ personnage.seDeplacer(epicerie);
 personnage.etat(); 
 
 personnage.prendPanier(epicerie.panier, personnage.mains.droite); 
-//console.log(personnage);
-//console.log(epicerie);
 
 for(let i=0; i<epicerie.articles.length; i++){
     console.log(`${personnage.nom} prend l'article .${epicerie.articles[i].nom}. ds son panier.`);
@@ -146,11 +137,7 @@ for(let i=0; i<epicerie.articles.length; i++){
 }
 personnage.etat(); 
 
-console.log('------------');
-
 personnage.seDeplacer(maison);
-
-console.log('------------');
 
 for(let i=0; i < personnage.mains.droite[0].length; i++){
     bol.contenu.push( personnage.mains.droite[0][i] ); 
@@ -179,3 +166,13 @@ bol.melanger("omlette");
 bol.verser(bol.contenu[0], poele);
 
 poele.cuire(poele.contenu[0]); 
+
+
+console.log('--------');
+console.log(maison);
+console.log(epicerie);
+console.log(personnage);
+
+console.log(bol);
+console.log(poele);
+console.log('----------');
